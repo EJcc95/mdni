@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Documentaría|e.design</title>
+    <!-- CDN Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <!-- Styles Css -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body class="login">
+    <!-- Login Page -->
+    <div class="login-container">
+        <div class="login-wrapper">
+            <!-- Left Side -->
+            <div class="login-left">
+                <div class="logo">
+                    <span class="e-letter">e</span>
+                    <span class="dot">.</span>
+                    <span class="design-text">design</span>
+                </div>
+                <p class="logo-text">Sistema de Gestión Documentaría</p>
+                <h2>Bienvenido de nuevo! </h2>
+                <p class="welcome-text">Por favor ingresa tus credenciales, para iniciar sesión.</p>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" autofocus required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <button class="btn bg-danger text-white" type="button" id="togglePassword">
+                                <i class="fa-regular fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Recordarme
+                            </label>
+                        </div>
+                        <a href="#" class="text-primary text-decoration-none">¿Olvidó su contraseña?</a>
+                    </div>
+                    <button type="submit" class="login-btn">Iniciar Sesión</button>
+                </form>
+            </div>
+
+            <!-- Right Side -->
+            <div class="login-right">
+                <h3>Conecta con todas tus aplicaciones</h3>
+                <p>Todo lo que necesitas en un dashboard fácilmente personalizable.</p>
+                <img src="assets/image/svg/login.svg" Dashboard Preview" class="login-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container (unchanged) -->
+    <div class="dashboard-container">
+        <!-- Previous dashboard content remains unchanged -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/password.js"></script>
+
+</body>
+
+</html>
