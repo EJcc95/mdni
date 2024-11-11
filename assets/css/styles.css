@@ -451,7 +451,7 @@ h2 {
 }
 
 .stats-approved {
-  background: linear-gradient(45deg, #20c997, #38d9a9);
+  background: linear-gradient(90deg, rgba(19, 181, 100, 1) 0%, rgba(10, 219, 122, 1) 100%);
 }
 
 .stats-rejected {
