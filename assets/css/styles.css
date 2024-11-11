@@ -447,7 +447,7 @@ h2 {
 }
 
 .stats-pending {
-  background: linear-gradient(45deg, #ff6b6b, #ff8787);
+  background: linear-gradient(90deg, rgba(230, 188, 0, 1) 0%, rgba(247, 174, 0, 1) 100%);
 }
 
 .stats-approved {
@@ -455,11 +455,11 @@ h2 {
 }
 
 .stats-rejected {
-  background: linear-gradient(45deg, #339af0, #4dabf7);
+  background: linear-gradient(90deg, rgba(230, 0, 0, 1) 0%, rgba(247, 0, 0, 1) 100%);
 }
 
 .stats-total {
-  background: linear-gradient(45deg, #845ef7, #9775fa);
+  background: linear-gradient(90deg, rgba(0, 82, 230, 1) 0%, rgba(0, 21, 247, 1) 100%);
 }
 
 /* Recent Documents Table */
