@@ -1,136 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Normative Document Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .modal-header {
-            border-bottom: none;
-        }
-
-        .modal-footer {
-            border-top: none;
-        }
-    </style>
+    <title>Dashboard - Sistema de Gestión</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
-    <div class="container my-5">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDocumentModal">
-            Add Normative Document
-        </button>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo">
+                <span class="e-letter" style="font-size: 4rem;">e</span>
+                <span class="dot">.</span>
+                <span class="design-text" style="font-size: 2rem;">design</span>
+            </div>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#dashboard">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+            <a class="nav-link" href="#documents">
+                <i class="fas fa-file-alt"></i>
+                Documentos
+            </a>
+            <a class="nav-link" href="#pending">
+                <i class="fas fa-clock"></i>
+                Pendientes
+            </a>
+            <a class="nav-link" href="#approved">
+                <i class="fas fa-check-circle"></i>
+                Aprobados
+            </a>
+            <a class="nav-link" href="#rejected">
+                <i class="fas fa-times-circle"></i>
+                Rechazados
+            </a>
+            <a class="nav-link" href="#users">
+                <i class="fas fa-users"></i>
+                Usuarios
+            </a>
+            <a class="nav-link" href="#settings">
+                <i class="fas fa-cog"></i>
+                Configuración
+            </a>
+        </nav>
+    </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-labelledby="addDocumentModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addDocumentModalLabel">Add Normative Document</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <button class="btn btn-primary d-md-none" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" placeholder="Buscar...">
+            </div>
+            <div class="user-menu">
+
+                <div class="user-profile" data-bs-toggle="dropdown">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="modal-body">
-                        <form id="documentForm">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="content">Content</label>
-                                <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="date" class="form-control" id="date" name="date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="file">File</label>
-                                <input type="file" class="form-control-file" id="file" name="file" required>
-                            </div>
-                        </form>
+                    <div class="user-info">
+                        <div class="fw-bold">Erinzon Cuzcano</div>
+                        <small class="text-muted">Administrador</small>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="saveDocument">Save</button>
-                    </div>
+                    <i class="fas fa-chevron-down ms-2"></i>
+                </div>
+                <!-- User Dropdown Menu -->
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#profile">
+                        <i class="fas fa-user-circle me-2"></i> Mi Perfil
+                    </a>
+                    <a class="dropdown-item" href="#settings">
+                        <i class="fas fa-cog me-2"></i> Configuración
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+                    </a>
                 </div>
             </div>
         </div>
 
-        <table class="table table-striped mt-4">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="documentTable">
-            </tbody>
-        </table>
+        <!-- Dashboard Content -->
+        <div class="container-fluid px-0">
+            <!-- Create Documents-->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#normativeDocumentModal">
+                <i class="fa-solid fa-file-circle-plus"></i> Crear Nuevo Documento
+            </button>
+            <!-- Modal Create Documents -->
+            <div class="modal fade" id="normativeDocumentModal" tabindex="-1"
+                aria-labelledby="normativeDocumentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="normativeDocumentModalLabel">Publish Normative Document</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="normativeDocumentForm">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">Content</label>
+                                    <textarea class="form-control" id="content" name="content" rows="3"
+                                        required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="date" name="date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="attachments" class="form-label">Attachments</label>
+                                    <input type="file" class="form-control" id="attachments" name="attachments"
+                                        multiple>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="submitNormativeDocument()">Publish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Documents Table -->
+            <div class="documents-table mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0">Documentos Recientes</h5>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Documento</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#001</td>
+                                <td>Contrato.pdf</td>
+                                <td>Contrato</td>
+                                <td>2024-11-09</td>
+                                <td>
+                                    <span class="status-badge status-pending">Pendiente</span>
+                                </td>
+                                <td>
+                                    <button class="action-btn" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#002</td>
+                                <td>Informe.docx</td>
+                                <td>Informe</td>
+                                <td>2024-11-08</td>
+                                <td>
+                                    <span class="status-badge status-approved">Aprobado</span>
+                                </td>
+                                <td>
+                                    <button class="action-btn" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        const documentTable = document.getElementById('documentTable');
-        const documentForm = document.getElementById('documentForm');
-        const saveDocumentBtn = document.getElementById('saveDocument');
-        let documents = [];
-
-        function renderDocuments() {
-            documentTable.innerHTML = '';
-            documents.forEach((doc, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-          <td>${doc.title}</td>
-          <td>${doc.content}</td>
-          <td>${doc.date}</td>
-          <td>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addDocumentModal" onclick="editDocument(${index})">Edit</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="deleteDocument(${index})">Delete</button>
-          </td>
-        `;
-                documentTable.appendChild(row);
-            });
-        }
-
-        function addDocument() {
-            const title = document.getElementById('title').value;
-            const content = document.getElementById('content').value;
-            const date = document.getElementById('date').value;
-            const file = document.getElementById('file').files[0];
-
-            const newDocument = { title, content, date, file };
-            documents.push(newDocument);
-            renderDocuments();
-
-            $('#addDocumentModal').modal('hide');
-            documentForm.reset();
-        }
-
-        function editDocument(index) {
-            const doc = documents[index];
-            document.getElementById('title').value = doc.title;
-            document.getElementById('content').value = doc.content;
-            document.getElementById('date').value = doc.date;
-            // No file input update, as that would require more complex logic
-        }
-
-        function deleteDocument(index) {
-            documents.splice(index, 1);
-            renderDocuments();
-        }
-
-        saveDocumentBtn.addEventListener('click', addDocument);
-    </script>
 </body>
-
-</html>

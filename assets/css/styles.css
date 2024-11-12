@@ -540,3 +540,28 @@ h2 {
     margin-left: var(--sidebar-width);
   }
 }
+
+.table {
+  --bs-table-bg: #f8f9fa;
+  --bs-table-striped-bg: #f0f0f0;
+  --bs-table-hover-bg: #e9ecef;
+}
+
+.btn-primary {
+  --bs-btn-bg: #007bff;
+  --bs-btn-border-color: #007bff;
+  --bs-btn-hover-bg: #0056b3;
+  --bs-btn-hover-border-color: #0056b3;
+}
+
+.btn-danger {
+  --bs-btn-bg: #dc3545;
+  --bs-btn-border-color: #dc3545;
+  --bs-btn-hover-bg: #b02a37;
+  --bs-btn-hover-border-color: #b02a37;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
