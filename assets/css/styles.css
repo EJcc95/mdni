@@ -3,8 +3,12 @@
 
 :root {
   --primary-blue: #0052CC;
-  --light-gray: #F5F6F8;
+  --light-gray: #eef3ff;
   --sidebar-width: 240px;
+  --sidebar-color: #fff;
+  --nav-link-color: #272727;
+  --nav-link-hover: #4379F2;
+  --nav-link-text-color-hover: #fff;
 }
 
 body {
@@ -281,7 +285,7 @@ h2 {
 /* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
-  background: white;
+  background: var(--sidebar-color);
   height: 100vh;
   position: fixed;
   left: 0;
@@ -298,20 +302,19 @@ h2 {
 
 .sidebar-logo {
   padding: 1rem;
+  align-items: center;
   border-bottom: 1px solid #eee;
   margin-bottom: 1rem;
 }
 
-.sidebar-logo img {
-  height: 32px;
-}
 
 .nav-item {
   margin-bottom: 0.5rem;
 }
 
 .nav-link {
-  color: #555;
+  color: var(--nav-link-color);
+  font-weight: 300;
   padding: 0.8rem 1rem;
   margin-top: 0.4rem;
   border-radius: 8px;
@@ -323,10 +326,9 @@ h2 {
 
 .nav-link:hover,
 .nav-link.active {
-  background-color: var(--light-gray);
-  color: var(--primary-blue);
+  background-color: var(--nav-link-hover);
+  color: var(--nav-link-text-color-hover);
 }
-
 
 .nav-link i {
   width: 20px;
@@ -514,13 +516,7 @@ h2 {
   color: white;
 }
 
-/* Charts Section */
-.chart-container {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-}
+
 
 @media (max-width: 768px) {
   .sidebar {
@@ -559,9 +555,4 @@ h2 {
   --bs-btn-border-color: #dc3545;
   --bs-btn-hover-bg: #b02a37;
   --bs-btn-hover-border-color: #b02a37;
-}
-
-.form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
 }

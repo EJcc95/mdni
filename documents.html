@@ -1,208 +1,226 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-gray-50">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistema de Gestión</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Dashboard - Sistema de Gestión Documentaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* logo */
+
+        .logo {
+            position: relative;
+            font-family: 'Lexend Deca', sans-serif;
+            text-decoration: none;
+            display: flex;
+            align-items: baseline;
+            /* Cambiado de center a baseline */
+        }
+
+        .e-letter {
+            font-size: 6rem;
+            font-weight: 700;
+            color: #0052CC;
+            line-height: 1;
+            margin-right: 0.05em;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .e-letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 45%,
+                    rgba(255, 255, 255, 0.5) 50%,
+                    transparent 55%);
+            background-size: 200% 200%;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .dot {
+            font-size: 4.5rem;
+            color: #0052CC;
+            line-height: 1;
+            margin-right: 0.1em;
+            margin-left: -0.1em;
+        }
+
+        .design-text {
+            font-size: 3rem;
+            color: #1A1A1A;
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .logo:hover .e-letter {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .e-letter {
+                font-size: 7rem;
+            }
+
+            .dot,
+            .design-text {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .e-letter {
+                font-size: 5rem;
+            }
+
+            .dot,
+            .design-text {
+                font-size: 2.5rem;
+            }
+        }
+
+        .logo-text {
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        /* end Logo */
+    </style>
 </head>
 
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo">
-                <span class="e-letter" style="font-size: 4rem;">e</span>
-                <span class="dot">.</span>
-                <span class="design-text" style="font-size: 2rem;">design</span>
+<body class="h-full">
+    <!-- Top Navigation -->
+    <header class="bg-white border-b h-16 fixed top-0 left-0 right-0 z-30">
+        <div class="flex items-center justify-between h-full px-4">
+            <div class="flex items-center gap-2">
+                <button id="sidebarToggle" class="lg:hidden text-gray-500 hover:text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="text-blue-600 text-2xl font-bold">e.</div>
+                    <div class="font-semibold">design</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="relative hidden md:block">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    <input type="text" placeholder="Buscar documentos..."
+                        class="w-72 pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <button class="relative text-gray-500 hover:text-gray-600 focus:outline-none">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+                </button>
+
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center gap-2 focus:outline-none">
+                        <div class="h-8 w-8 rounded-full bg-blue-600 text-white grid place-items-center">
+                            A
+                        </div>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mi Cuenta</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configuración</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Cerrar Sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <nav class="nav flex-column">
-            <a class="nav-link active" href="#dashboard">
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r transition-transform lg:translate-x-0 z-20 -translate-x-full">
+        <div class="p-4 space-y-4">
+            <a href="#"
+                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
                 <i class="fas fa-home"></i>
-                Dashboard
+                Inicio
             </a>
-            <a class="nav-link" href="#documents">
+            <a href="#"
+                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
                 <i class="fas fa-file-alt"></i>
                 Documentos
             </a>
-            <a class="nav-link" href="#pending">
-                <i class="fas fa-clock"></i>
-                Pendientes
+            <a href="#"
+                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
+                <i class="fas fa-folder-open"></i>
+                Carpetas
             </a>
-            <a class="nav-link" href="#approved">
-                <i class="fas fa-check-circle"></i>
-                Aprobados
-            </a>
-            <a class="nav-link" href="#rejected">
-                <i class="fas fa-times-circle"></i>
-                Rechazados
-            </a>
-            <a class="nav-link" href="#users">
+            <a href="#"
+                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
                 <i class="fas fa-users"></i>
-                Usuarios
+                Compartidos
             </a>
-            <a class="nav-link" href="#settings">
-                <i class="fas fa-cog"></i>
-                Configuración
-            </a>
-        </nav>
-    </div>
+        </div>
+    </aside>
 
     <!-- Main Content -->
-    <div class="main-content">
-        <!-- Top Navigation -->
-        <div class="top-nav">
-            <button class="btn btn-primary d-md-none" id="toggleSidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" class="form-control" placeholder="Buscar...">
+    <main class="pt-16 lg:pl-64 min-h-screen">
+        <div class="p-6">
+            <div class="mb-6 flex items-center justify-between">
+                <h1 class="text-2xl font-bold">Documentos Recientes</h1>
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Documento
+                </button>
             </div>
-            <div class="user-menu">
 
-                <div class="user-profile" data-bs-toggle="dropdown">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
+            <!-- Document Grid -->
+            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <!-- Repeat this block for each document -->
+                <div class="bg-white p-4 rounded-lg border shadow-sm">
+                    <div class="h-32 bg-gray-100 rounded-lg mb-4 grid place-items-center">
+                        <i class="fas fa-file-alt text-5xl text-gray-400"></i>
                     </div>
-                    <div class="user-info">
-                        <div class="fw-bold">Erinzon Cuzcano</div>
-                        <small class="text-muted">Administrador</small>
-                    </div>
-                    <i class="fas fa-chevron-down ms-2"></i>
+                    <h3 class="font-medium mb-1">Documento 1</h3>
+                    <p class="text-sm text-gray-500">Actualizado hace 2 días</p>
                 </div>
-                <!-- User Dropdown Menu -->
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#profile">
-                        <i class="fas fa-user-circle me-2"></i> Mi Perfil
-                    </a>
-                    <a class="dropdown-item" href="#settings">
-                        <i class="fas fa-cog me-2"></i> Configuración
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
-                    </a>
-                </div>
+                <!-- Repeat 7 more times for a total of 8 documents -->
             </div>
         </div>
+    </main>
 
-        <!-- Dashboard Content -->
-        <div class="container-fluid px-0">
-            <!-- Create Documents-->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#normativeDocumentModal">
-                <i class="fa-solid fa-file-circle-plus"></i> Crear Nuevo Documento
-            </button>
-            <!-- Modal Create Documents -->
-            <div class="modal fade" id="normativeDocumentModal" tabindex="-1"
-                aria-labelledby="normativeDocumentModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="normativeDocumentModalLabel">Publish Normative Document</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="normativeDocumentForm">
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="title" name="title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="content" class="form-label">Content</label>
-                                    <textarea class="form-control" id="content" name="content" rows="3"
-                                        required></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control" id="date" name="date" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="attachments" class="form-label">Attachments</label>
-                                    <input type="file" class="form-control" id="attachments" name="attachments"
-                                        multiple>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary"
-                                onclick="submitNormativeDocument()">Publish</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Recent Documents Table -->
-            <div class="documents-table mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="mb-0">Documentos Recientes</h5>
+    <script>
+        // Toggle sidebar
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        });
 
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Documento</th>
-                                <th>Tipo</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#001</td>
-                                <td>Contrato.pdf</td>
-                                <td>Contrato</td>
-                                <td>2024-11-09</td>
-                                <td>
-                                    <span class="status-badge status-pending">Pendiente</span>
-                                </td>
-                                <td>
-                                    <button class="action-btn" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#002</td>
-                                <td>Informe.docx</td>
-                                <td>Informe</td>
-                                <td>2024-11-08</td>
-                                <td>
-                                    <span class="status-badge status-approved">Aprobado</span>
-                                </td>
-                                <td>
-                                    <button class="action-btn" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/dashboard.js"></script>
-
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function (event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+    </script>
 </body>
+
+</html>
