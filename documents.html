@@ -1,226 +1,231 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-gray-50">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistema de Gestión Documentaria</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* logo */
-
-        .logo {
-            position: relative;
-            font-family: 'Lexend Deca', sans-serif;
-            text-decoration: none;
-            display: flex;
-            align-items: baseline;
-            /* Cambiado de center a baseline */
-        }
-
-        .e-letter {
-            font-size: 6rem;
-            font-weight: 700;
-            color: #0052CC;
-            line-height: 1;
-            margin-right: 0.05em;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .e-letter::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg,
-                    transparent 45%,
-                    rgba(255, 255, 255, 0.5) 50%,
-                    transparent 55%);
-            background-size: 200% 200%;
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        .dot {
-            font-size: 4.5rem;
-            color: #0052CC;
-            line-height: 1;
-            margin-right: 0.1em;
-            margin-left: -0.1em;
-        }
-
-        .design-text {
-            font-size: 3rem;
-            color: #1A1A1A;
-            font-weight: 300;
-            line-height: 1;
-            letter-spacing: -0.02em;
-        }
-
-        .logo:hover .e-letter {
-            transform: scale(1.02);
-        }
-
-        @media (max-width: 768px) {
-            .e-letter {
-                font-size: 7rem;
-            }
-
-            .dot,
-            .design-text {
-                font-size: 3.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .e-letter {
-                font-size: 5rem;
-            }
-
-            .dot,
-            .design-text {
-                font-size: 2.5rem;
-            }
-        }
-
-        .logo-text {
-            font-family: 'Lexend Deca', sans-serif;
-            font-weight: 300;
-            font-size: 1rem;
-            color: #6c757d;
-            margin-bottom: 1.5rem;
-        }
-
-        /* end Logo */
-    </style>
+    <title>Dashboard - Sistema de Gestión</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 
-<body class="h-full">
-    <!-- Top Navigation -->
-    <header class="bg-white border-b h-16 fixed top-0 left-0 right-0 z-30">
-        <div class="flex items-center justify-between h-full px-4">
-            <div class="flex items-center gap-2">
-                <button id="sidebarToggle" class="lg:hidden text-gray-500 hover:text-gray-600 focus:outline-none">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="flex items-center gap-2">
-                    <div class="text-blue-600 text-2xl font-bold">e.</div>
-                    <div class="font-semibold">design</div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <div class="relative hidden md:block">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                    <input type="text" placeholder="Buscar documentos..."
-                        class="w-72 pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <button class="relative text-gray-500 hover:text-gray-600 focus:outline-none">
-                    <i class="fas fa-bell"></i>
-                    <span class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-                </button>
-
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="flex items-center gap-2 focus:outline-none">
-                        <div class="h-8 w-8 rounded-full bg-blue-600 text-white grid place-items-center">
-                            A
-                        </div>
-                    </button>
-                    <div x-show="open" @click.away="open = false"
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mi Cuenta</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configuración</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Cerrar Sesión</a>
-                    </div>
-                </div>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo">
+                <span class="e-letter" style="font-size: 4rem;">e</span>
+                <span class="dot">.</span>
+                <span class="design-text" style="font-size: 2rem;">design</span>
             </div>
         </div>
-    </header>
-
-    <!-- Sidebar -->
-    <aside id="sidebar"
-        class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r transition-transform lg:translate-x-0 z-20 -translate-x-full">
-        <div class="p-4 space-y-4">
-            <a href="#"
-                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#dashboard">
                 <i class="fas fa-home"></i>
-                Inicio
+                Dashboard
             </a>
-            <a href="#"
-                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
+            <a class="nav-link" href="#documents">
                 <i class="fas fa-file-alt"></i>
                 Documentos
             </a>
-            <a href="#"
-                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
-                <i class="fas fa-folder-open"></i>
-                Carpetas
+            <a class="nav-link" href="#pending">
+                <i class="fas fa-clock"></i>
+                Pendientes
             </a>
-            <a href="#"
-                class="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 px-4 rounded-md hover:bg-gray-100">
+            <a class="nav-link" href="#approved">
+                <i class="fas fa-check-circle"></i>
+                Aprobados
+            </a>
+            <a class="nav-link" href="#rejected">
+                <i class="fas fa-times-circle"></i>
+                Rechazados
+            </a>
+            <a class="nav-link" href="#users">
                 <i class="fas fa-users"></i>
-                Compartidos
+                Usuarios
             </a>
-        </div>
-    </aside>
+            <a class="nav-link" href="#settings">
+                <i class="fas fa-cog"></i>
+                Configuración
+            </a>
+        </nav>
+    </div>
 
     <!-- Main Content -->
-    <main class="pt-16 lg:pl-64 min-h-screen">
-        <div class="p-6">
-            <div class="mb-6 flex items-center justify-between">
-                <h1 class="text-2xl font-bold">Documentos Recientes</h1>
-                <button
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2">
-                    <i class="fas fa-plus"></i>
-                    Nuevo Documento
-                </button>
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <button class="btn btn-primary d-md-none" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" placeholder="Buscar...">
             </div>
-
-            <!-- Document Grid -->
-            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <!-- Repeat this block for each document -->
-                <div class="bg-white p-4 rounded-lg border shadow-sm">
-                    <div class="h-32 bg-gray-100 rounded-lg mb-4 grid place-items-center">
-                        <i class="fas fa-file-alt text-5xl text-gray-400"></i>
+            <div class="user-menu">
+                <div class="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <!-- Si tienes una imagen de usuario -->
+                        <!-- <img src="path/to/avatar.jpg" alt="User Avatar" class="img-fluid"> -->
+                        <!-- Si no tienes imagen -->
+                        <i class="fas fa-user"></i>
+                        <div class="user-status"></div>
                     </div>
-                    <h3 class="font-medium mb-1">Documento 1</h3>
-                    <p class="text-sm text-gray-500">Actualizado hace 2 días</p>
+                    <div class="user-info">
+                        <div class="fw-bold">Erinzon Cuzcano</div>
+                        <small class="text-muted">Administrador</small>
+                    </div>
+                    <i class="fas fa-chevron-down ms-2 text-muted"></i>
                 </div>
-                <!-- Repeat 7 more times for a total of 8 documents -->
+
+                <!-- User Dropdown Menu -->
+                <div class="dropdown-menu">
+                    <div class="dropdown-header px-3 py-2">
+                        <div class="text-muted fs-7">Bienvenido</div>
+                        <div class="fw-bold">Erinzon Cuzcano</div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#profile">
+                        <i class="fas fa-user-circle"></i>
+                        Mi Perfil
+                    </a>
+                    <a class="dropdown-item" href="#messages">
+                        <i class="fas fa-envelope"></i>
+                        Mensajes
+                        <span class="badge bg-primary rounded-pill ms-auto">3</span>
+                    </a>
+                    <a class="dropdown-item" href="#tasks">
+                        <i class="fas fa-tasks"></i>
+                        Tareas
+                        <span class="badge bg-warning rounded-pill ms-auto">5</span>
+                    </a>
+                    <a class="dropdown-item" href="#settings">
+                        <i class="fas fa-cog"></i>
+                        Configuración
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cerrar Sesión
+                    </a>
+                </div>
             </div>
         </div>
-    </main>
 
-    <script>
-        // Toggle sidebar
-        document.getElementById('sidebarToggle').addEventListener('click', function () {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
-        });
+        <!-- Dashboard Content -->
+        <div class="container-fluid">
+            <!-- Formulario de Creación de Documentos -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Crear Nuevo Documento</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="docTitle" class="form-label">Título del Documento</label>
+                            <input type="text" class="form-control" id="docTitle" placeholder="Ingrese el título">
+                        </div>
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function (event) {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
-                sidebar.classList.add('-translate-x-full');
-            }
-        });
-    </script>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="docDate" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="docDate">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="docContent" class="form-label">Contenido</label>
+                            <textarea class="form-control" id="docContent" rows="4"
+                                placeholder="Ingrese el contenido del documento"></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Adjuntar Archivo</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="docFile">
+                            </div>
+                            <div class="form-text">Formatos permitidos: PDF, DOCX, XLS (Max. 5MB)</div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="button" class="btn btn-light me-2">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Publicar Documento</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla de Documentos -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Documentos Publicados</h5>
+                    <div class="search-bar" style="width: 250px;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Buscar documento...">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Archivo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Informe Mensual</td>
+                                    <td>2024-03-15</td>
+                                    <td>
+                                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                                        informe_marzo.pdf
+                                    </td>
+                                    <td><span class="badge bg-success">Publicado</span></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-light" title="Ver">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-light" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-light" title="Eliminar">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Más filas de ejemplo -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginación -->
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+
+
 </body>
-
-</html>

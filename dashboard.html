@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 
 <body>
@@ -64,35 +65,57 @@
                 <input type="text" class="form-control" placeholder="Buscar...">
             </div>
             <div class="user-menu">
-
-                <div class="user-profile" data-bs-toggle="dropdown">
+                <div class="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-avatar">
+                        <!-- Si tienes una imagen de usuario -->
+                        <!-- <img src="path/to/avatar.jpg" alt="User Avatar" class="img-fluid"> -->
+                        <!-- Si no tienes imagen -->
                         <i class="fas fa-user"></i>
+                        <div class="user-status"></div>
                     </div>
                     <div class="user-info">
                         <div class="fw-bold">Erinzon Cuzcano</div>
                         <small class="text-muted">Administrador</small>
                     </div>
-                    <i class="fas fa-chevron-down ms-2"></i>
+                    <i class="fas fa-chevron-down ms-2 text-muted"></i>
                 </div>
+
                 <!-- User Dropdown Menu -->
                 <div class="dropdown-menu">
+                    <div class="dropdown-header px-3 py-2">
+                        <div class="text-muted fs-7">Bienvenido</div>
+                        <div class="fw-bold">Erinzon Cuzcano</div>
+                    </div>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#profile">
-                        <i class="fas fa-user-circle me-2"></i> Mi Perfil
+                        <i class="fas fa-user-circle"></i>
+                        Mi Perfil
+                    </a>
+                    <a class="dropdown-item" href="#messages">
+                        <i class="fas fa-envelope"></i>
+                        Mensajes
+                        <span class="badge bg-primary rounded-pill ms-auto">3</span>
+                    </a>
+                    <a class="dropdown-item" href="#tasks">
+                        <i class="fas fa-tasks"></i>
+                        Tareas
+                        <span class="badge bg-warning rounded-pill ms-auto">5</span>
                     </a>
                     <a class="dropdown-item" href="#settings">
-                        <i class="fas fa-cog me-2"></i> Configuración
+                        <i class="fas fa-cog"></i>
+                        Configuración
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cerrar Sesión
                     </a>
                 </div>
             </div>
         </div>
 
         <!-- Dashboard Content -->
-        <div class="container-fluid px-0">
+        <div class="container-fluid">
             <!-- Stats Cards -->
             <div class="row">
                 <div class="col-md-3">
@@ -198,9 +221,116 @@
                     </table>
                 </div>
             </div>
+            <!-- Formulario de Creación de Documentos -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Crear Nuevo Documento</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="docTitle" class="form-label">Título del Documento</label>
+                            <input type="text" class="form-control" id="docTitle" placeholder="Ingrese el título">
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="docDate" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="docDate">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="docContent" class="form-label">Contenido</label>
+                            <textarea class="form-control" id="docContent" rows="4"
+                                placeholder="Ingrese el contenido del documento"></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Adjuntar Archivo</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="docFile">
+                            </div>
+                            <div class="form-text">Formatos permitidos: PDF, DOCX, XLS (Max. 5MB)</div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="button" class="btn btn-light me-2">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Publicar Documento</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla de Documentos -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Documentos Publicados</h5>
+                    <div class="search-bar" style="width: 250px;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Buscar documento...">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Archivo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Informe Mensual</td>
+                                    <td>2024-03-15</td>
+                                    <td>
+                                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                                        informe_marzo.pdf
+                                    </td>
+                                    <td><span class="badge bg-success">Publicado</span></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-light" title="Ver">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-light" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-light" title="Eliminar">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Más filas de ejemplo -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginación -->
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/dashboard.js"></script>
+
 
 </body>
