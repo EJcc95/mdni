@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>e.design Document Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap");
+
+      :root {
+        --primary-color: #0052cc;
+        --secondary-color: #0065ff;
+        --text-color: #172b4d;
+        --sidebar-width: 250px;
+      }
+
+      body {
+        font-family: "Lexend Deca", sans-serif;
+        background-color: #f4f5f7;
+        color: var(--text-color);
+      }
+
+      .sidebar {
+        width: var(--sidebar-width);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        background: #ffffff;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1050;
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .main-content {
+        margin-left: var(--sidebar-width);
+        padding: 20px;
+        transition: margin 0.3s ease;
+      }
+
+      .nav-link {
+        color: var(--text-color);
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        margin-bottom: 8px;
+        border-radius: 8px;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background: #f4f5f7;
+        color: var(--primary-color);
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-card .title {
+        color: #5e6c84;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .stat-card .value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 8px 0;
+        color: var(--text-color);
+      }
+
+      .search-container {
+        position: relative;
+        max-width: 300px;
+      }
+
+      .search-box {
+        background: #f4f5f7;
+        border: 2px solid #dfe1e6;
+        border-radius: 24px;
+        padding: 10px 20px 10px 40px;
+        width: 100%;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .search-box:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
+        outline: none;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #5e6c84;
+      }
+
+      .user-menu {
+        position: relative;
+      }
+
+      .user-menu-button {
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 24px;
+        transition: background-color 0.3s ease;
+      }
+
+      .user-menu-button:hover {
+        background-color: #f4f5f7;
+      }
+
+      .user-menu-button img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .user-menu-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 8px 0;
+        min-width: 200px;
+        z-index: 1000;
+        display: none;
+      }
+
+      .user-menu-dropdown.show {
+        display: block;
+      }
+
+      .user-menu-item {
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+
+      .user-menu-item:hover {
+        background-color: #f4f5f7;
+      }
+
+      .top-bar {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 12px 24px;
+        margin-bottom: 24px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        position: relative;
+        font-family: "Lexend Deca", sans-serif;
+        text-decoration: none;
+        display: flex;
+        align-items: baseline;
+        padding: 24px 24px 0;
+      }
+
+      .e-letter {
+        font-size: 5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        line-height: 1;
+        margin-right: 0.05em;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .e-letter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 45%,
+          rgba(255, 255, 255, 0.5) 50%,
+          transparent 55%
+        );
+        background-size: 200% 200%;
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        0% {
+          background-position: 200% 0;
+        }
+
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      .dot {
+        font-size: 4.5rem;
+        color: var(--primary-color);
+        line-height: 1;
+        margin-right: 0.1em;
+        margin-left: -0.1em;
+      }
+
+      .design-text {
+        font-size: 2.5rem;
+        color: var(--text-color);
+        font-weight: 300;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      .logo:hover .e-letter {
+        transform: scale(1.02);
+      }
+
+      .logo-text {
+        font-family: "Lexend Deca", sans-serif;
+        font-weight: 300;
+        font-size: 0.8rem;
+        color: #5e6c84;
+        padding: 0 24px;
+        margin-bottom: 1.5rem;
+      }
+
+      .close-sidebar {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--text-color);
+        cursor: pointer;
+        z-index: 1100;
+      }
+
+      @media (max-width: 768px) {
+        :root {
+          --sidebar-width: 100%;
+        }
+
+        .sidebar {
+          width: 100%;
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+          max-width: 100%;
+          z-index: 1050;
+        }
+
+        .sidebar.show {
+          transform: translateX(0);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .close-sidebar {
+          display: block;
+        }
+
+        body.sidebar-open {
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+        }
+
+        .e-letter {
+          font-size: 5rem;
+        }
+
+        .dot,
+        .design-text {
+          font-size: 3rem;
+        }
+
+        .logo {
+          justify-content: center;
+        }
+
+        .logo-text {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .e-letter {
+          font-size: 4rem;
+        }
+
+        .dot,
+        .design-text {
+          font-size: 2.5rem;
+        }
+
+        .top-bar {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+        }
+
+        .search-container {
+          order: -1;
+          max-width: 100%;
+        }
+      }
+      .user-avatar {
+        display: inline-flex;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .user-initial {
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <button class="close-sidebar" onclick="toggleSidebar()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+      <a href="#" class="logo">
+        <span class="e-letter">e</span><span class="dot">.</span
+        ><span class="design-text">design</span>
+      </a>
+      <div class="logo-text">Document Management System</div>
+      <div class="nav flex-column">
+        <a href="#" class="nav-link active">
+          <i class="bi bi-speedometer2"></i>
+          Dashboard
+        </a>
+        <a href="#" class="nav-link">
+          <i class="bi bi-file-earmark"></i>
+          Documents
+        </a>
+        <a href="#" class="nav-link">
+          <i class="bi bi-folder2"></i>
+          Categories
+        </a>
+        <a href="#" class="nav-link">
+          <i class="bi bi-people"></i>
+          Users
+        </a>
+        <a href="#" class="nav-link">
+          <i class="bi bi-clock-history"></i>
+          Activity Log
+        </a>
+        <a href="#" class="nav-link">
+          <i class="bi bi-gear"></i>
+          Settings
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <button class="btn btn-light d-md-none" id="sidebarToggle">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input
+            type="text"
+            class="search-box"
+            placeholder="Search documents..."
+          />
+        </div>
+        <div class="user-menu">
+          <button class="user-menu-button">
+            <span class="user-avatar">
+              <span class="user-initial">JD</span>
+            </span>
+            <span class="d-md-inline">John Doe</span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="user-menu-dropdown" id="userMenuDropdown">
+            <a href="#" class="user-menu-item">
+              <i class="bi bi-person"></i>
+              Profile
+            </a>
+            <a href="#" class="user-menu-item">
+              <i class="bi bi-gear"></i>
+              Settings
+            </a>
+            <a href="#" class="user-menu-item text-danger">
+              <i class="bi bi-box-arrow-right"></i>
+              Sign Out
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="row g-4">
+        <!-- Total Documents -->
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="title">Total Documents</div>
+            <div class="value">15,482</div>
+            <div class="d-flex align-items-center text-success">
+              <i class="bi bi-arrow-up-short"></i>
+              <span>12% increase</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Users -->
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="title">Active Users</div>
+            <div class="value">1,284</div>
+            <div class="d-flex align-items-center text-primary">
+              <i class="bi bi-people-fill"></i>
+              <span>24 new this week</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Storage Used -->
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="title">Storage Used</div>
+            <div class="value">756 GB</div>
+            <div class="d-flex align-items-center text-warning">
+              <i class="bi bi-hdd-fill"></i>
+              <span>75% of total</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents Processed -->
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="title">Docs Processed</div>
+            <div class="value">2,541</div>
+            <div class="d-flex align-items-center text-info">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Last 7 days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header bg-white">
+              <h5 class="card-title mb-0">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <i class="bi bi-file-earmark-plus text-success me-2"></i>
+                    New document uploaded
+                    <small class="text-muted d-block"
+                      >Financial Report Q3</small
+                    >
+                  </div>
+                  <span class="badge bg-light text-dark">2 mins ago</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <i class="bi bi-person-plus text-primary me-2"></i>
+                    New user registered
+                    <small class="text-muted d-block">Sarah Johnson</small>
+                  </div>
+                  <span class="badge bg-light text-dark">1 hour ago</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <i class="bi bi-file-earmark-text text-info me-2"></i>
+                    Document updated
+                    <small class="text-muted d-block">Project Proposal</small>
+                  </div>
+                  <span class="badge bg-light text-dark">3 hours ago</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <i class="bi bi-trash text-danger me-2"></i>
+                    Document deleted
+                    <small class="text-muted d-block">Outdated Contract</small>
+                  </div>
+                  <span class="badge bg-light text-dark">Yesterday</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("sidebar");
+        const sidebarToggleBtn = document.getElementById("sidebarToggle");
+        const closeSidebarBtn = sidebar.querySelector(".close-sidebar");
+        const userMenuButton = document.querySelector(".user-menu-button");
+        const userMenuDropdown = document.getElementById("userMenuDropdown");
+
+        function toggleSidebar() {
+          sidebar.classList.toggle("show");
+          sidebarToggleBtn.setAttribute(
+            "aria-expanded",
+            sidebar.classList.contains("show")
+          );
+          document.body.classList.toggle("sidebar-open");
+        }
+
+        function toggleUserMenu(event) {
+          event.stopPropagation(); // Prevent document click from immediately closing
+          userMenuDropdown.classList.toggle("show");
+        }
+
+        // Sidebar toggle buttons
+        if (sidebarToggleBtn) {
+          sidebarToggleBtn.addEventListener("click", toggleSidebar);
+        }
+
+        // Close sidebar button inside sidebar
+        if (closeSidebarBtn) {
+          closeSidebarBtn.addEventListener("click", toggleSidebar);
+        }
+
+        // User menu toggle
+        if (userMenuButton) {
+          userMenuButton.addEventListener("click", toggleUserMenu);
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener("click", function (event) {
+          if (window.innerWidth <= 768 && sidebar.classList.contains("show")) {
+            const isSidebarClick = sidebar.contains(event.target);
+            const isSidebarToggleClick = sidebarToggleBtn.contains(
+              event.target
+            );
+
+            if (!isSidebarClick && !isSidebarToggleClick) {
+              toggleSidebar();
+            }
+          }
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (
+            !userMenuButton.contains(event.target) &&
+            userMenuDropdown.classList.contains("show")
+          ) {
+            userMenuDropdown.classList.remove("show");
+          }
+        });
+
+        // Handle window resize
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 768) {
+            sidebar.classList.remove("show");
+            sidebarToggleBtn.setAttribute("aria-expanded", "false");
+            document.body.classList.remove("sidebar-open");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
